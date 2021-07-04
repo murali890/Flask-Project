@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flask Tutorial</title>
     <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 
 
@@ -12,8 +13,43 @@
 
 <div id="navbar">
     <h1> {{title}}</h1>
-    
-   
+</div>
+
+<div class="container">
+    <form style="margin-top:50px;margin-bottom:30px" action="{{url_for('.add')}}" class="form-group-mt-8 form-inline" method="POST" >
+    <input  type="text" name="Task" class="form-contron form-control-lg m-2" placeholder="Enter Task" required>
+    <button style="position:relative;left:15px" type="submit" class="btn btn-md btn-primary">Add Task</button>
+</form>
+</div>
+<div class="container">
+    <table class="table text-center tabel-bordered">
+        <tr>
+            <th class="text-center">
+                Id
+            </th>
+            <th class="text-center">
+                Task Name
+            </th>
+            <th class="text-center">
+                Date
+            </th>
+            <th class="text-center"> 
+                Action
+            </th>
+        </tr>
+        {% for todo in getdata %}
+        <tr>
+            <td>{{todo.id}}</td>
+            <td>{{todo.task}}</td>
+            <td>{{todo.date}}</td>
+            <td>
+                <a class="btn btn-success mr-2" href="#">update</a>
+                <a class="btn btn-warning ml-2" href="#">decline</a>
+            </td>
+        </tr>
+        {% endfor %}
+       
+    </table>
 </div>
    
     
