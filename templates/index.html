@@ -16,12 +16,21 @@
 </div>
 
 <div class="container">
-    <form style="margin-top:50px;margin-bottom:30px" action="{{url_for('.add')}}" class="form-group-mt-8 form-inline" method="POST" >
-    <input  type="text" name="Task" class="form-contron form-control-lg m-2" placeholder="Enter Task" required>
+    {% if updatetodo %}
+    <form style="margin-top:50px;margin-bottom:30px" action="{{ url_for('.update',id=updatetodo.id) }}" class="form-group-mt-8 form-inline" method="POST" >
+    <input  type="text" name="task" class="form-contron form-control-lg m-2" placeholder="Enter Task" value="{{updatetodo.task}}" required>
+    <button style="position:relative;left:15px" type="submit" class="btn btn-md btn-primary">update</button>
+</form>
+{% else %}
+<form style="margin-top:50px;margin-bottom:30px" action="{{url_for('.add')}}" class="form-group-mt-8 form-inline" method="POST" >
+    <input  type="text" name="task" class="form-contron form-control-lg m-2" placeholder="Enter Task" required>
     <button style="position:relative;left:15px" type="submit" class="btn btn-md btn-primary">Add Task</button>
 </form>
+
+{% endif %}
 </div>
-<div class="container">
+
+<div class="container" style="background-image:url('/Users/narasimman/Downloads/qwe.jpg') ;">
     <table class="table text-center tabel-bordered">
         <tr>
             <th class="text-center">
@@ -43,13 +52,14 @@
             <td>{{todo.task}}</td>
             <td>{{todo.date}}</td>
             <td>
-                <a class="btn btn-success mr-2" href="#">update</a>
-                <a class="btn btn-warning ml-2" href="#">decline</a>
+                <a class="btn btn-success mr-2" href="{{url_for('.update',id=todo.id)}}">update</a>
+                <a class="btn btn-warning ml-2" href="{{url_for('.delete',id=todo.id)}}">delete</a>
             </td>
         </tr>
         {% endfor %}
        
     </table>
+
 </div>
    
     

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect,abort
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -23,11 +23,11 @@ class Todo(db.Model):
 def index():
     get_data= Todo.query.all()
 
-    return render_template("index.html",title="flask",getdata=get_data)
+    return render_template("index.html",title="TODO APP",getdata=get_data)
 
 @app.route('/add/',methods=['POST'])
 def add():
-    data= request.form['Task']
+    data= request.form['task']
     print("task data",data)
     todo = Todo(task=data,date=datetime.now())
    
@@ -38,6 +38,34 @@ def add():
     db.session.commit()
 
     return redirect(('/'))
+
+@app.route('/delete/<id>/')
+
+def delete(id):
+    try:
+        todo = Todo.query.get(id)
+        db.session.delete(todo)
+        db.session.commit()
+        return redirect('/')
+    except Exception as e:
+        print(e)
+        return abort(404)
+
+
+@app.route('/update/<id>/',methods=['GET','POST'])
+def update(id):
+    tos = Todo.query.get(id)
+    if request.method == 'POST':
+        tos.task = request.form['task']
+        db.session.commit()
+        print(request.form)
+        return redirect('/')
+    else:
+        
+        get_data= Todo.query.all()
+        return render_template("index.html",updatetodo=tos,title="TODO APP",getdata=get_data)
+
+
 
 
 
